@@ -1,119 +1,271 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8">
-<title>Persist sources and layers when switching a map's base style</title>
-<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
-<link href="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.css" rel="stylesheet">
-<script src="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.js"></script>
-<style>
-body { margin: 0; padding: 0; }
-#map { position: absolute; top: 0; bottom: 0; width: 100%; }
-</style>
+	<meta charset="utf-8">
+	<title>Newcastle Bus Route</title>
+	<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+	<link href="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.css" rel="stylesheet">
+	<script src="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.js"></script>
+	<style>
+		body { margin: 0; padding: 0; }
+		#map { position: absolute; top: 0; bottom: 0; width: 100%; }
+	</style>
 </head>
 <body>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<style>
-#menu {
-position: absolute;
-background: #efefef;
-padding: 10px;
-font-family: 'Open Sans', sans-serif;
-}
-</style>
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+		<style>
+			#menu {
+			position: absolute;
+			background: #efefef;
+			padding: 10px;
+			font-family: 'Open Sans', sans-serif;
+		}
+	</style>
  
-<div id="map"></div>
+		<div id="map"></div>
  
-<div id="menu">
-<input id="satellite-streets-v12" type="radio" name="rtoggle" value="satellite" checked="checked">
-<!-- See a list of Mapbox-hosted public styles at -->
-<!-- https://docs.mapbox.com/api/maps/styles/#mapbox-styles -->
-<label for="satellite-streets-v12">satellite streets</label>
-<input id="light-v11" type="radio" name="rtoggle" value="light">
-<label for="light-v11">light</label>
-<input id="dark-v11" type="radio" name="rtoggle" value="dark">
-<label for="dark-v11">dark</label>
-<input id="streets-v12" type="radio" name="rtoggle" value="streets">
-<label for="streets-v12">streets</label>
-<input id="outdoors-v12" type="radio" name="rtoggle" value="outdoors">
-<label for="outdoors-v12">outdoors</label>
-</div>
-<script>
-	mapboxgl.accessToken = 'pk.eyJ1IjoiY3VzdG9tZXJpbnNpZ2h0cyIsImEiOiJjbDlvMXAwdzAwNTl0M3VsYjJ2amVkMmgyIn0.bcZJMNFbrqBWswyKnj5xKQ';
-const map = new mapboxgl.Map({
-container: 'map', // container ID
-// Choose from Mapbox's core styles, or make your own style with Mapbox Studio
-style: 'mapbox://styles/mapbox/satellite-streets-v12', // style URL
-center: [-122.486052, 37.830348],
-zoom: 14,
-projection: 'mercator'
-});
+		<div id="menu">
+			<input id="clf0crl57000201p9755fitgu" type="radio" name="rtoggle" value="satellite" checked="checked">
+			<label for="clf0crl57000201p9755fitgu">satellite</label>
+			<input id="clezsexel000m01rn08x0a6un" type="radio" name="rtoggle" value="streets">
+			<label for="clezsexel000m01rn08x0a6un">streets</label>
+		</div>
+	<script>
+			mapboxgl.accessToken = 'pk.eyJ1IjoiY3VzdG9tZXJpbnNpZ2h0cyIsImEiOiJjbDlvMXAwdzAwNTl0M3VsYjJ2amVkMmgyIn0.bcZJMNFbrqBWswyKnj5xKQ';
+			const map = new mapboxgl.Map({
+			container: 'map', // container ID
+			// Choose from Mapbox's core styles, or make your own style with Mapbox Studio
+			style: 'mapbox://styles/customerinsights/clezsexel000m01rn08x0a6un', // style URL
+			center: [151.694458, -32.965705], // starting position [lng, lat]
+			zoom: 12, // starting zoom
+			projection: 'mercator'
+		});
  
-// Add GeoJSON source and layer
-function addAdditionalSourceAndLayer() {
-map.addSource('routeSource', {
-'type': 'geojson',
-'data': {
-'type': 'Feature',
-'properties': {},
-'geometry': {
-'type': 'LineString',
-'coordinates': [
-[-122.48369693756104, 37.83381888486939],
-[-122.48348236083984, 37.83317489144141],
-[-122.48339653015138, 37.83270036637107],
-[-122.48356819152832, 37.832056363179625],
-[-122.48404026031496, 37.83114119107971],
-[-122.48404026031496, 37.83049717427869],
-[-122.48348236083984, 37.829920943955045],
-[-122.48356819152832, 37.82954808664175],
-[-122.48507022857666, 37.82944639795659],
-[-122.48610019683838, 37.82880236636284],
-[-122.48695850372314, 37.82931081282506],
-[-122.48700141906738, 37.83080223556934],
-[-122.48751640319824, 37.83168351665737],
-[-122.48803138732912, 37.832158048267786],
-[-122.48888969421387, 37.83297152392784],
-[-122.48987674713133, 37.83263257682617],
-[-122.49043464660643, 37.832937629287755],
-[-122.49125003814696, 37.832429207817725],
-[-122.49163627624512, 37.832564787218985],
-[-122.49223709106445, 37.83337825839438],
-[-122.49378204345702, 37.83368330777276]
-]
-}
-}
-});
-map.addLayer({
-'id': 'routeLayer',
-'type': 'line',
-'source': 'routeSource',
-'layout': {
-'line-join': 'round',
-'line-cap': 'round'
-},
-'paint': {
-'line-color': '#33bb6a',
-'line-width': 8
-}
-});
-}
- 
-// Add source and layer whenever base style is loaded
-map.on('style.load', () => {
-addAdditionalSourceAndLayer();
-});
- 
-const layerList = document.getElementById('menu');
-const inputs = layerList.getElementsByTagName('input');
- 
-for (const input of inputs) {
-input.onclick = (layer) => {
-const layerId = layer.target.id;
-map.setStyle('mapbox://styles/mapbox/' + layerId);
-};
-}
-</script>
- 
-</body>
+      // Add GeoJSON source and layer
+      function addAdditionalSourceAndLayer() {
+        map.addSource('places', {
+                              type: 'geojson',
+                              data: {
+                              type: 'FeatureCollection',
+                              features: [
+                                  {
+                                  type: 'Feature',
+                                  properties: {
+                                      description:
+                                          '<h3>Frederick St</h3>' +
+                                          '<table style="width: 100%;">' +
+                                          '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                          '<td style="text-align: left;">sealed road</td></tr>' +
+                                          '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                          '<td style="text-align: left;">104.1m</td></tr>' +
+                                          '</table>'
+                                      },
+                                      'geometry': {
+                                          'type': 'Point',
+                                          'coordinates': [151.694458, -32.965705]
+                                      }
+                                  },
+                                  {
+                                      type: 'Feature',
+                                      properties: {
+                                      description:
+                                          '<h3>Kahibah Rd</h3>' +
+                                          '<table style="width: 100%;">' +
+                                          '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                          '<td style="text-align: left;">sealed road</td></tr>' +
+                                          '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                          '<td style="text-align: left;">108.9m</td></tr>' +
+                                          '</table>'
+                                      },
+                                      'geometry': {
+                                          'type': 'Point',
+                                          'coordinates': [151.702403, -32.965125]
+                                      }
+                                  },
+                                  {
+                                      type: 'Feature',
+                                      properties: {
+                                      description:
+                                          '<h3>Glebe St</h3>' +
+                                          '<table style="width: 100%;">' +
+                                          '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                          '<td style="text-align: left;">sealed road</td></tr>' +
+                                          '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                          '<td style="text-align: left;">101.3m</td></tr>' +
+                                          '</table>'
+                                      },
+                                      'geometry': {
+                                          'type': 'Point',
+                                          'coordinates': [151.712195, -32.962025]
+                                      }
+                                  },
+                                  {
+                                      type: 'Feature',
+                                      properties: {
+                                          description:
+                                              '<h3>Pacific Hwy</h3>' +
+                                              '<table style="width: 100%;">' +
+                                              '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                              '<td style="text-align: left;">sealed road</td></tr>' +
+                                              '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                              '<td style="text-align: left;">101.2m</td></tr>' +
+                                              '</table>'
+                                      },
+                                      'geometry': {
+                                          'type': 'Point',
+                                          'coordinates': [151.71188, -32.952733]
+                                      }
+                                  },
+                                  {
+                                      type: 'Feature',
+                                      properties: {
+                                      description:
+                                          '<h3>Sunhill Dr</h3>' +
+                                          '<table style="width: 100%;">' +
+                                          '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                          '<td style="text-align: left;">sealed road</td></tr>' +
+                                          '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                          '<td style="text-align: left;">100.9m</td></tr>' +
+                                          '</table>'
+                                      },
+                                      'geometry': {
+                                          'type': 'Point',
+                                          'coordinates': [151.728753, -32.948169]
+                                      }
+                                  },
+                                  {
+                                      type: 'Feature',
+                                      properties: {
+                                      description:
+                                          '<h3>Morgan St</h3>' +
+                                          '<table style="width: 100%;">' +
+                                          '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                          '<td style="text-align: left;">sealed road</td></tr>' +
+                                          '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                          '<td style="text-align: left;">35.0m</td></tr>' +
+                                          '</table>'
+                                      },
+                                      'geometry': {
+                                          'type': 'Point',
+                                          'coordinates': [151.737763, -32.94421]
+                                      }
+                                  },
+                                  {
+                                      type: 'Feature',
+                                      properties: {
+                                      description:
+                                          '<h3>Llewellyn St</h3>' +
+                                          '<table style="width: 100%;">' +
+                                          '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                          '<td style="text-align: left;">sealed road</td></tr>' +
+                                          '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                          '<td style="text-align: left;">16.8m</td></tr>' +
+                                          '</table>'
+                                      },
+                                      'geometry': {
+                                          'type': 'Point',
+                                          'coordinates': [151.749747, -32.939388]
+                                      }
+                                  },
+                                  {
+                                      type: 'Feature',
+                                      properties: {
+                                      description:
+                                          '<h3>Stewart Ave</h3>' +
+                                          '<table style="width: 100%;">' +
+                                          '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                          '<td style="text-align: left;">sealed road</td></tr>' +
+                                          '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                          '<td style="text-align: left;">8.0m</td></tr>' +
+                                          '</table>'
+                                      },
+                                      'geometry': {
+                                          'type': 'Point',
+                                          'coordinates': [151.75289, -32.931942]
+                                      }
+                                  },
+                                  {
+                                      type: 'Feature',
+                                      properties: {
+                                      description:
+                                          '<h3>Newcastle Interchange</h3>' +
+                                          '<table style="width: 100%;">' +
+                                          '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                          '<td style="text-align: left;">sealed road</td></tr>' +
+                                          '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                          '<td style="text-align: left;">10.4m</td></tr>' +
+                                          '</table>'
+                                      },
+                                      'geometry': {
+                                          'type': 'Point',
+                                          'coordinates': [151.758471, -32.924056]
+                                      }
+                                  }
+                              ]
+                          }
+                      });
+
+                      map.addLayer({
+                          'id': 'places',
+                          'type': 'circle',
+                          'source': 'places',
+                          'paint': {
+                              'circle-color': '#0099FF',
+                              'circle-radius': 7,
+                              'circle-stroke-width': 2,
+                              'circle-stroke-color': '#ffffff'
+                          }
+                      });
+                    }
+      
+      // Add source and layer whenever base style is loaded
+        map.on('style.load', () => {
+          addAdditionalSourceAndLayer();
+          });
+            
+        const layerList = document.getElementById('menu');
+        const inputs = layerList.getElementsByTagName('input');
+            
+        for (const input of inputs) {
+            input.onclick = (layer) => {
+            const layerId = layer.target.id;
+            map.setStyle('mapbox://styles/customerinsights/' + layerId);
+          };
+        }
+        // Create a popup, but don't add it to the map yet.
+            const popup = new mapboxgl.Popup({
+                  closeButton: false,
+                  closeOnClick: false
+                });
+
+                map.on('mouseenter', 'places', (e) => {
+                    // Change the cursor style as a UI indicator.
+                    map.getCanvas().style.cursor = 'pointer';
+
+                    // Copy coordinates array.
+                    const coordinates = e.features[0].geometry.coordinates.slice();
+                    const description = e.features[0].properties.description;
+
+                    // Ensure that if the map is zoomed out such that multiple
+                    // copies of the feature are visible, the popup appears
+                    // over the copy being pointed to.
+                    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+                    }
+
+                    // Populate the popup and set its coordinates
+                    // based on the feature found.
+                    popup.setLngLat(coordinates).setHTML(description).addTo(map);
+                });
+
+                map.on('mouseleave', 'places', () => {
+                    map.getCanvas().style.cursor = '';
+                    popup.remove();
+                });
+
+        map.addControl(new mapboxgl.FullscreenControl(), 'top-right');
+        map.addControl(new mapboxgl.NavigationControl(), 'top-right');
+
+    </script> 
+  </body>
 </html>

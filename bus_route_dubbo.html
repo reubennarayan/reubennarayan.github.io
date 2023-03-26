@@ -1,0 +1,1330 @@
+<!DOCTYPE html>
+    <html>
+	<head>
+	<meta charset="utf-8">
+	<title>Dubbo Bus Route</title>
+	<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+	<link href="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.css" rel="stylesheet">
+	<script src="https://api.mapbox.com/mapbox-gl-js/v2.13.0/mapbox-gl.js"></script>
+		<style>
+			body { margin: 0; padding: 0; }
+			#map { position: absolute; top: 0; bottom: 0; width: 100%; }
+			.mapboxgl-popup {
+				max-width: 200px;
+			}
+			.mapboxgl-popup-content {
+			text-align: center;
+			font-family: 'Open Sans', sans-serif;
+			}
+		</style>
+	</head>
+<body>
+    <style>
+		#menu {
+		position: absolute;
+		background: #efefef;
+		padding: 10px;
+		font-family: 'Open Sans', sans-serif;
+	}
+    </style>
+		<div id="map"></div>
+
+		<div id="menu">
+            <input id="clfm1akye000q01o2r9so0cgg" type="radio" name="rtoggle" value="satellite" checked="checked">
+			<label for="clfm1akye000q01o2r9so0cgg">satellite</label>
+            <input id="clfm0d0ck000501lllchyeubf" type="radio" name="rtoggle" value="streets">
+			<label for="clfm0d0ck000501lllchyeubf">streets</label>
+			<input id="clfmkbsha000h01qax4dw0nxp" type="radio" name="rtoggle" value="streets">
+			<label for="clfmkbsha000h01qax4dw0nxp">dead running</label>
+
+
+		</div>
+	<script>
+		mapboxgl.accessToken = 'pk.eyJ1IjoiY3VzdG9tZXJpbnNpZ2h0cyIsImEiOiJjbDlvMXAwdzAwNTl0M3VsYjJ2amVkMmgyIn0.bcZJMNFbrqBWswyKnj5xKQ';
+		const map = new mapboxgl.Map({
+		container: 'map',
+		style: 'mapbox://styles/customerinsights/clfm1akye000q01o2r9so0cgg',
+		center: [ 148.630606, -32.24228 ],
+		zoom: 13.5
+		});
+        
+       // Add Marker
+       const marker1 = new mapboxgl.Marker({
+                color: 'purple',
+            })
+            .setLngLat([148.6305877, -32.2423916])
+            .addTo(map);
+
+            const marker2 = new mapboxgl.Marker({
+                color: 'green',
+            })
+            .setLngLat([148.192824,-32.728992])
+            .addTo(map);
+
+            const marker3 = new mapboxgl.Marker({
+                color: 'red',
+            })
+            .setLngLat([148.621337,-32.246286])
+            .addTo(map);
+
+		// Add GeoJSON source and layer
+		function addAdditionalSourceAndLayer() {
+		map.addSource('route', {
+                        'type': 'geojson',
+                        'data': {
+                            'type': 'FeatureCollection',
+                            'features': [
+                            {
+                            'type': 'Feature',
+                            'properties': {
+                                'description':
+                                            '<h3>St Marys Primary School</h3>' +
+                                            '<table style="width: 100%;">' +
+                                            '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                            '<td style="text-align: left;">sealed road</td></tr>' +
+                                            '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                            '<td style="text-align: left;">293 m</td></tr>' +
+                                            '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                            '<td style="text-align: left;">0 km</td></tr>' +
+                                            '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.630606, -32.24228]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>Orana Heights Public School</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">291.3 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">1.9 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.626414, -32.253544]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>St Johns Primary School</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">299.9 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">5.4 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.645801, -32.263326]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>St Johns College</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">299.5 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">5.5 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.645691, -32.26388]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>Dubbo Christian School</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">301 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">5.7 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.645271, -32.262716]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>St Georges Tce at Nelson Pl</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">306 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">8.1 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.646613, -32.243412]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>St Georges Tce at Jacqueline Dr</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">302.9 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">8.5 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.646192,-32.239907]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>Sarah St after St Georges Tce</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">300.1 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">8.7 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.647833,-32.239236]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>Murrayfield Dr at Christie Cl</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">291 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">9 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.649546,-32.238211]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>Murrayfield Dr opp St Georges Tce</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">286.1 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">9.3 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.649716,-32.235983]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>Murrayfield Dr at Catchpole Cl</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">283.3 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">9.5 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.648379,-32.234271]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>Murrayfield Dr opp Ella Pl</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">284 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">9.7 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.646883,-32.233624]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>Eden Park Ave after Gasnier Pl</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">283.1 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">9.8 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.646072,-32.234025]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>Cardiff Arms Ave at Kings Park Way</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">282.8 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">9.9 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.645079,-32.233108]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>Cardiff Arms Ave at Websdale Dr</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">284 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">10.1 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.64324,-32.233881]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>Cardiff Arms Ave at Twickenham Dr</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">285 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">10.5 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.639801,-32.235292]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>Cobbora Rd at Pegasus Pl</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">282.4 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">10.8 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.637009,-32.235915]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>Cobbora Rd at Columbia Dr</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">285.8 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">11.1 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.633957,-32.237207]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>Catholic Healthcare Holy Spirit Dubbo</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">285.7 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">11.8 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.628854,-32.237965]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>Dubbo College Senior Campus</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">273 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">12.2 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.628935,-32.234355]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>Cobbora Rd before Caroline St</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">287.3 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">13.6 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.625515,-32.240075]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>Wingewarra St opp Dubbo Museum and History Centre</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">268.1 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">15.8 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.609828,-32.250257]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>Wingewarra St opp Dubbo Public School</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">265.9 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">16.1 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.607336,-32.249976]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>Dubbo Public School</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">267.2 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">16.7 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.605368,-32.249471]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>Dubbo PCYC</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">263 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">17.3 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.606768,-32.244178]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>St Pius X Primary School</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">280.7 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">20 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.587892,-32.2503]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>Dubbo College Delroy Campus</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">286 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">20.5 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.583143,-32.250437]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>Dubbo West Public School</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">288.3 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">21.1 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.587632,-32.251741]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>Minore Rd opp Delroy Park Shops</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">281.2 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">22.3 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.57873,-32.255076]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>Baird Dr after Carnegie Ave</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">283.2 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">22.8 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.577345,-32.252469]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>Lansdowne Dr after Apsley Cres</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">298.1 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">23.7 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.571655,-32.248947]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>Champagne Dr after Lansdowne Dr</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">298.6 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">23.9 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.570957,-32.250067]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>Champagne Dr at Minore Rd</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">294 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">24.3 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.569803,-32.253519]
+                                }
+                            },
+                            {	
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>St Andrews Dr at Royal Pines Cl</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">279 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">25.2 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.576881,-32.25544]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>St Andrews Dr after Carnoustie Dr</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">276.4 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">25.7 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.576158,-32.259664]
+                                }
+                            },
+                            {	
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>Grangewood Dr at Willowbend Way</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">288.1 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">26 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.576097,-32.262213]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>Grangewood Dr after Englewood Ave</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">295.6 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">26.4 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.572048,-32.263339]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>Grangewood Dr at Lincoln Pkwy</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">293.8 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">26.5 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.570739,-32.263375]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>10L Rifle Range Rd</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">352.4 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">30.9 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.553163,-32.280989]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>16L Rifle Range Rd</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">347.1 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">31.3 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.549341,-32.28061]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>Rifle Range Rd after Buddens Rd</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">345.2 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">31.7 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.544544,-32.279883]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>Sappa Bulga Rd at Peak Hill Rd</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">317.9 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">35.5 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.550277,-32.294736]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>4L Ascot Park Rd</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">338.7 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">36.9 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.54033,-32.298487]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>20L Ascot Park Rd</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">343.7 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">38.4 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.528005,-32.300626]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>3R Ascot Park Rd</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">337 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">39 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.532766,-32.296498]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>Peak Hill Rd opp 58R</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">327.8 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">40.8 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.540677,-32.303991]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>Peak Hill Rd at Station Yards Rd</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">316.4 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">44.5 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.512672,-32.326747]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>Peak Hill Rd at Panai Ave</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">317.8 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">45.1 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.507479,-32.329783]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>Peak Hill Rd at Ten Mile Lane</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">339.8 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">47.3 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.492157,-32.344295]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>Peak Hill Rd at Tinks Rd</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">362 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">48.8 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.479637,-32.351637]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>159L Peak Hill Rd</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">346.8 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">51 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.464914,-32.365417]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>195L Peak Hill Rd</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">372.8 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">54.6 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.437428,-32.38779]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>Peak Hill Rd at Mountain Creek Rd</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">376.2 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">55.2 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.434551,-32.391667]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>204L Peak Hill Rd</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">384.8 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">55.6 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.430618,-32.393572]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>Newell Hwy at Belowrie Rd</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">375 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">65.1 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.359927,-32.446859]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>Newell Hwy opp 8105</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">376.4 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">70 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.326638,-32.474895]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>Newell Hwy at Momo Rd</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">337.7 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">72.6 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.308857,-32.493545]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>Tomingley Coach Stop, Newell Hwy</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">278.4 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">84.7 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.222233,-32.571488]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>Caswell St before Ween St</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">283.4 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">102.3 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.189776,-32.721178]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>Peak Hill Central Public School</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">289.3 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">103.3 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.192824,-32.728992]
+                                }
+                            },
+                            {
+                            type: 'Feature',
+                            properties: {
+                                description:
+                                        '<h3>Depot</h3>' +
+                                        '<table style="width: 100%;">' +
+                                        '<tr><td style="width: 100px; text-align: left;">road surface:</td>' +
+                                        '<td style="text-align: left;">sealed road</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">elevation:</td>' +
+                                        '<td style="text-align: left;">275.5 m</td></tr>' +
+                                        '<tr><td style="width: 100px; text-align: left;">distance:</td>' +
+                                        '<td style="text-align: left;">176.3 km</td></tr>' +
+                                        '</table>'
+                                },
+                                'geometry': {
+                                'type': 'Point',
+                                'coordinates': [148.621337,-32.246286]
+                            }
+                        }
+                    ]
+                }
+            });
+
+			map.addLayer({
+				'id': 'places',
+				'type': 'circle',
+				'source': 'route',
+				'paint': {
+					'circle-radius': 8,
+					'circle-color': '#0099FF',
+					'circle-stroke-width': 2,
+					'circle-stroke-color': '#ffffff'
+                }
+            });
+        }
+	
+		// Add source and layer whenever base style is loaded
+			map.on('style.load', () => {
+          	addAdditionalSourceAndLayer();
+          	});
+            
+        	const layerList = document.getElementById('menu');
+        	const inputs = layerList.getElementsByTagName('input');
+            
+			for (const input of inputs) {
+				input.onclick = (layer) => {
+				const layerId = layer.target.id;
+				map.setStyle('mapbox://styles/customerinsights/' + layerId);
+			};
+        }
+
+		// Create a popup, but don't add it to the map yet.
+            const popup = new mapboxgl.Popup({
+                  closeButton: false,
+                  closeOnClick: false
+                });
+
+                map.on('mouseenter', 'places', (e) => {
+                    // Change the cursor style as a UI indicator.
+                    map.getCanvas().style.cursor = 'pointer';
+
+                    // Copy coordinates array.
+                    const coordinates = e.features[0].geometry.coordinates.slice();
+                    const description = e.features[0].properties.description;
+
+                    // Ensure that if the map is zoomed out such that multiple
+                    // copies of the feature are visible, the popup appears
+                    // over the copy being pointed to.
+                    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+                        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+                    }
+
+                    // Populate the popup and set its coordinates
+                    // based on the feature found.
+                    popup.setLngLat(coordinates).setHTML(description).addTo(map);
+                });
+
+                map.on('mouseleave', 'places', () => {
+                    map.getCanvas().style.cursor = '';
+                    popup.remove();
+                });
+
+				// Add checkbox and label elements for the layer.
+				const input = document.createElement('input');
+				input.type = 'checkbox';
+				input.id = layerID;
+				input.checked = true;
+				filterGroup.appendChild(input);
+				
+				const label = document.createElement('label');
+				label.setAttribute('for', layerID);
+				label.textContent = symbol;
+				filterGroup.appendChild(label);
+				
+				// When the checkbox changes, update the visibility of the layer.
+				input.addEventListener('change', (e) => {
+				map.setLayoutProperty(
+				layerID,
+				'visibility',
+				e.target.checked ? 'visible' : 'none'
+				);
+				});
+
+
+        map.addControl(new mapboxgl.FullscreenControl(), 'top-right');
+        map.addControl(new mapboxgl.NavigationControl(), 'top-right');
+
+    </script> 
+  </body>
+</html>
+</script>
+ 
+</body>
+</html>
